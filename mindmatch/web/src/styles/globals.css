@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #0F0A1F, #1A1033);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.7);
+}
+
+/* 玻璃态效果 */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(139, 92, 246, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 匹配度徽章 */
+.match-badge {
+  @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.match-badge.high {
+  @apply bg-emerald-500/20 text-emerald-400 border border-emerald-500/50;
+}
+
+.match-badge.medium {
+  @apply bg-amber-500/20 text-amber-400 border border-amber-500/50;
+}
+
+.match-badge.low {
+  @apply bg-red-500/20 text-red-400 border border-red-500/50;
+}
+
+/* 灵魂标签 */
+.soul-tag {
+  @apply inline-block px-3 py-1 rounded-full text-xs font-medium;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.3));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* 按钮样式 */
+.btn-primary {
+  @apply px-6 py-3 rounded-full font-semibold text-white transition-all duration-200;
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.btn-primary:hover {
+  @apply transform scale-105;
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+}
+
+.btn-secondary {
+  @apply px-6 py-3 rounded-full font-semibold transition-all duration-200;
+  @apply border border-primary/50 text-primary;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.btn-secondary:hover {
+  @apply bg-primary/20;
+}
+
+/* 输入框样式 */
+.input-field {
+  @apply w-full px-4 py-3 rounded-xl text-text-primary placeholder-text-muted;
+  @apply bg-white/5 border border-white/10;
+  @apply focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20;
+  @apply transition-all duration-200;
+}
+
+/* 卡片悬浮效果 */
+.card-hover {
+  @apply transition-all duration-300;
+}
+
+.card-hover:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3);
+}
+
+/* 动画 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* 星星背景 */
+.stars-bg {
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.3), transparent);
+  background-size: 200px 200px;
+}
