@@ -13,17 +13,19 @@ import {
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
 }
 
 const menuItems = [
-  { icon: MessageSquare, label: "AI对话分析", active: true },
-  { icon: LayoutDashboard, label: "数据看板", active: false },
-  { icon: Database, label: "SQL实验室", active: false },
-  { icon: Bell, label: "监控告警", active: false },
-  { icon: Settings, label: "系统设置", active: false },
+  { id: "chat", icon: MessageSquare, label: "AI对话分析" },
+  { id: "dashboard", icon: LayoutDashboard, label: "数据看板" },
+  { id: "sql", icon: Database, label: "SQL实验室" },
+  { id: "alert", icon: Bell, label: "监控告警" },
+  { id: "settings", icon: Settings, label: "系统设置" },
 ];
 
-export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
+export default function Sidebar({ isOpen, onToggle, activeTab, onTabChange }: SidebarProps) {
   return (
     <aside
       className={`bg-[#1E293B] text-white transition-all duration-300 flex flex-col ${
@@ -54,19 +56,23 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
       {/* 菜单 */}
       <nav className="flex-1 py-4">
-        {menuItems.map((item) => (
-          <button
-            key={item.label}
-            className={`w-full flex items-center gap-3 px-4 py-3 transition-colors ${
-              item.active
-                ? "bg-[#0EA5E9]/20 text-[#0EA5E9] border-r-2 border-[#0EA5E9]"
-                : "text-[#94A3B8] hover:bg-white/5 hover:text-white"
-            }`}
-          >
-            <item.icon className="w-5 h-5 shrink-0" />
-            {isOpen && <span className="text-sm">{item.label}</span>}
-          </button>
-        ))}
+        {menuItems.map((item) => {
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => onTabChange(item.id)}
+              className={`w-full flex items-center gap-3 px-4 py-3 transition-colors cursor-pointer ${
+                isActive
+                  ? "bg-[#0EA5E9]/20 text-[#0EA5E9] border-r-2 border-[#0EA5E9]"
+                  : "text-[#94A3B8] hover:bg-white/5 hover:text-white"
+              }`}
+            >
+              <item.icon className="w-5 h-5 shrink-0" />
+              {isOpen && <span className="text-sm">{item.label}</span>}
+            </button>
+          );
+        })}
       </nav>
 
       {/* 底部信息 */}
