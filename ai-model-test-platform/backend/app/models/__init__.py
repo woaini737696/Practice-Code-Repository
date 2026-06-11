@@ -1,3 +1,4 @@
+from app.models.user import User
 from app.models.distilled_user import DistilledUser
 from app.models.chat_record import ChatRecord
 from app.models.ai_model import AIModel

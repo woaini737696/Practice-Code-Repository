@@ -1,4 +1,4 @@
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:3000/ws';
+const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8000/ws';
 
 class WebSocketService {
   private ws: WebSocket | null = null;
@@ -9,7 +9,9 @@ class WebSocketService {
   connect() {
     if (this.ws?.readyState === WebSocket.OPEN) return;
 
-    this.ws = new WebSocket(WS_URL);
+    const token = localStorage.getItem('token');
+    const wsUrl = token ? `${WS_URL}?token=${token}` : WS_URL;
+    this.ws = new WebSocket(wsUrl);
 
     this.ws.onopen = () => {
       console.log('WebSocket connected');

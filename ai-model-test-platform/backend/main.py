@@ -2,7 +2,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.database import engine, Base
-from app.api import distillation, models, tests, scoring, settings
+from app.api import distillation, models, tests, scoring, settings, auth
 from app.websocket.manager import websocket_manager
 
 # 创建数据库表
@@ -24,6 +24,7 @@ app.add_middleware(
 )
 
 # 注册API路由
+app.include_router(auth.router)
 app.include_router(distillation.router)
 app.include_router(models.router)
 app.include_router(tests.router)
