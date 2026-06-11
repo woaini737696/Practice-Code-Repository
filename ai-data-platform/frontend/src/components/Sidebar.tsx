@@ -59,18 +59,22 @@ export default function Sidebar({ isOpen, onToggle, activeTab, onTabChange }: Si
         {menuItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
-            <button
+            <div
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 transition-colors cursor-pointer ${
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onTabChange(item.id); }}
+              className={`w-full flex items-center gap-3 px-4 py-3 transition-colors select-none ${
                 isActive
                   ? "bg-[#0EA5E9]/20 text-[#0EA5E9] border-r-2 border-[#0EA5E9]"
                   : "text-[#94A3B8] hover:bg-white/5 hover:text-white"
               }`}
+              style={{ cursor: 'pointer' }}
             >
               <item.icon className="w-5 h-5 shrink-0" />
               {isOpen && <span className="text-sm">{item.label}</span>}
-            </button>
+            </div>
           );
         })}
       </nav>
