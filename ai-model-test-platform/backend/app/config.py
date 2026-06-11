@@ -4,7 +4,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "mysql+pymysql://root:password@localhost:3306/ai_test"
+    database_url: str = "sqlite:///./ai_test.db"
     
     # Redis
     redis_url: str = "redis://localhost:6379/0"

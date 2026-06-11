@@ -11,6 +11,7 @@ interface AIModel {
   model_name: string;
   temperature: number;
   max_tokens: number;
+  system_prompt?: string;
   timeout: number;
   is_enabled: number;
   created_at: string;

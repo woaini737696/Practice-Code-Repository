@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Input, Button, message, Switch, Tabs, Space } from 'antd';
-import { SaveOutlined, MailOutlined, TestOutlined, SettingOutlined } from '@ant-design/icons';
+import { SaveOutlined, MailOutlined, ExperimentOutlined, SettingOutlined } from '@ant-design/icons';
 import { settingsApi } from '../../services/api';
 
 const { TabPane } = Tabs;
@@ -181,7 +181,7 @@ const SettingsPage: React.FC = () => {
                   <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={loading}>
                     保存配置
                   </Button>
-                  <Button icon={<TestOutlined />} onClick={handleTestEmail} disabled={!emailConfigured}>
+                  <Button icon={<ExperimentOutlined />} onClick={handleTestEmail} disabled={!emailConfigured}>
                     发送测试邮件
                   </Button>
                 </Space>

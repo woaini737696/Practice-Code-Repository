@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 from typing import List
-import pandas as pd
+import csv
+import io
 import json
 
 from app.database import get_db
@@ -10,6 +11,37 @@ from app.models.chat_record import ChatRecord
 from app.schemas.distilled_user import DistilledUserCreate, DistilledUserResponse, DistilledUserDetail
 
 router = APIRouter(prefix="/api/distillation", tags=["distillation"])
+
+
+def parse_csv_file(file_content: bytes):
+    """解析CSV文件"""
+    content = file_content.decode('utf-8')
+    reader = csv.DictReader(io.StringIO(content))
+    rows = list(reader)
+    return rows
+
+
+def parse_excel_file(file_content: bytes):
+    """解析Excel文件（简化实现，使用openpyxl）"""
+    try:
+        from openpyxl import load_workbook
+        wb = load_workbook(io.BytesIO(file_content))
+        ws = wb.active
+        
+        # 获取表头
+        headers = [cell.value for cell in ws[1]]
+        
+        rows = []
+        for row in ws.iter_rows(min_row=2, values_only=True):
+            row_dict = {}
+            for i, value in enumerate(row):
+                if i < len(headers):
+                    row_dict[headers[i]] = value
+            rows.append(row_dict)
+        
+        return rows
+    except ImportError:
+        raise HTTPException(status_code=500, detail="缺少openpyxl依赖，无法解析Excel文件")
 
 
 @router.get("/users", response_model=List[DistilledUserResponse])
@@ -56,15 +88,20 @@ def upload_chat_records(
         raise HTTPException(status_code=400, detail="只支持Excel或CSV文件")
     
     try:
+        content = file.file.read()
+        
         # 读取文件
         if file.filename.endswith('.csv'):
-            df = pd.read_csv(file.file)
+            rows = parse_csv_file(content)
         else:
-            df = pd.read_excel(file.file)
+            rows = parse_excel_file(content)
         
         # 检查必要列
+        if not rows:
+            raise HTTPException(status_code=400, detail="文件为空")
+        
         required_columns = ['role', 'content']
-        if not all(col in df.columns for col in required_columns):
+        if not all(col in rows[0] for col in required_columns):
             raise HTTPException(status_code=400, detail=f"文件必须包含列: {required_columns}")
         
         # 创建用户
@@ -72,18 +109,18 @@ def upload_chat_records(
         db_user = DistilledUser(
             name=name,
             source_file=file.filename,
-            message_count=len(df)
+            message_count=len(rows)
         )
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
         
         # 添加聊天记录
-        for _, row in df.iterrows():
+        for row in rows:
             db_record = ChatRecord(
                 user_id=db_user.id,
-                role=row['role'],
-                content=str(row['content']),
+                role=row.get('role', 'user'),
+                content=str(row.get('content', '')),
                 timestamp=row.get('timestamp')
             )
             db.add(db_record)
