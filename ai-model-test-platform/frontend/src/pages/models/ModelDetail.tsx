@@ -25,6 +25,7 @@ const ModelDetail: React.FC = () => {
     if (id) {
       fetchModelDetail();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchModelDetail = async () => {

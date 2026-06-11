@@ -33,6 +33,7 @@ const TestDetailPage: React.FC = () => {
     if (id) {
       fetchTestDetail();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchTestDetail = async () => {

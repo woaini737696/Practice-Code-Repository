@@ -12,6 +12,7 @@ const SettingsPage: React.FC = () => {
   useEffect(() => {
     fetchEmailConfig();
     fetchGeneralSettings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchEmailConfig = async () => {
