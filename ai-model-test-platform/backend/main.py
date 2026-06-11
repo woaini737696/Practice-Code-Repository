@@ -11,8 +11,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="AI Model Test Platform",
     description="AI聊天模型测试平台",
-    version="1.0.0",
-    root_path="/ai-test"
+    version="1.0.0"
 )
 
 # CORS配置
