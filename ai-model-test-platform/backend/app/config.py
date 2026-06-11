@@ -4,7 +4,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "sqlite:////workspace/ai-model-test-platform/backend/ai_test.db"
+    database_url: str = "sqlite:////opt/ai-model-test-platform/backend/ai_test.db"
     
     # Redis
     redis_url: str = "redis://localhost:6379/0"
