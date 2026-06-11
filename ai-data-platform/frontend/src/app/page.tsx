@@ -5,15 +5,16 @@ import Sidebar from "@/components/Sidebar";
 import ChatMessage from "@/components/ChatMessage";
 import DataTable from "@/components/DataTable";
 import SqlPreview from "@/components/SqlPreview";
+import Dashboard from "@/components/Dashboard";
+import SqlLab from "@/components/SqlLab";
+import Alerts from "@/components/Alerts";
+import Settings from "@/components/Settings";
 import { Message, ChatResponse } from "@/types";
 import {
   Send,
   Loader2,
   Database,
   Sparkles,
-  BarChart3,
-  Bell,
-  Settings,
 } from "lucide-react";
 
 const API_BASE = "";
@@ -224,42 +225,10 @@ export default function Home() {
               </div>
             </>
           )}
-          {activeTab === "dashboard" && (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <BarChart3 className="w-16 h-16 text-[#CBD5E1] mx-auto mb-4" />
-                <h2 className="text-xl font-semibold text-[#1E293B] mb-2">数据看板</h2>
-                <p className="text-[#64748B]">功能开发中，敬请期待...</p>
-              </div>
-            </div>
-          )}
-          {activeTab === "sql" && (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <Database className="w-16 h-16 text-[#CBD5E1] mx-auto mb-4" />
-                <h2 className="text-xl font-semibold text-[#1E293B] mb-2">SQL实验室</h2>
-                <p className="text-[#64748B]">功能开发中，敬请期待...</p>
-              </div>
-            </div>
-          )}
-          {activeTab === "alert" && (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <Bell className="w-16 h-16 text-[#CBD5E1] mx-auto mb-4" />
-                <h2 className="text-xl font-semibold text-[#1E293B] mb-2">监控告警</h2>
-                <p className="text-[#64748B]">功能开发中，敬请期待...</p>
-              </div>
-            </div>
-          )}
-          {activeTab === "settings" && (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <Settings className="w-16 h-16 text-[#CBD5E1] mx-auto mb-4" />
-                <h2 className="text-xl font-semibold text-[#1E293B] mb-2">系统设置</h2>
-                <p className="text-[#64748B]">功能开发中，敬请期待...</p>
-              </div>
-            </div>
-          )}
+          {activeTab === "dashboard" && <Dashboard />}
+          {activeTab === "sql" && <SqlLab />}
+          {activeTab === "alert" && <Alerts />}
+          {activeTab === "settings" && <Settings />}
         </main>
       </div>
     </div>
