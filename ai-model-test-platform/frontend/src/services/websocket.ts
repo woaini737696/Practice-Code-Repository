@@ -1,4 +1,4 @@
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8000/ws';
+const WS_URL = process.env.REACT_APP_WS_URL || `ws://${window.location.hostname}:8000/ws`;
 
 class WebSocketService {
   private ws: WebSocket | null = null;

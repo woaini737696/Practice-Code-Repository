@@ -3,8 +3,6 @@ import { Card, Form, Input, Button, message, Switch, Tabs, Space } from 'antd';
 import { SaveOutlined, MailOutlined, ExperimentOutlined, SettingOutlined } from '@ant-design/icons';
 import { settingsApi } from '../../services/api';
 
-const { TabPane } = Tabs;
-
 const SettingsPage: React.FC = () => {
   const [emailForm] = Form.useForm();
   const [generalForm] = Form.useForm();
@@ -118,112 +116,114 @@ const SettingsPage: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>系统配置</h2>
+  const tabItems = [
+    {
+      key: 'email',
+      label: (
+        <span>
+          <MailOutlined />
+          邮箱配置
+        </span>
+      ),
+      children: (
+        <Card>
+          <Form form={emailForm} onFinish={handleSaveEmail} layout="vertical">
+            <Form.Item
+              name="smtp_host"
+              label="SMTP服务器"
+              rules={[{ required: true, message: '请输入SMTP服务器地址' }]}
+            >
+              <Input placeholder="例如：smtp.gmail.com" />
+            </Form.Item>
 
-      <Tabs defaultActiveKey="email">
-        <TabPane
-          tab={
-            <span>
-              <MailOutlined />
-              邮箱配置
-            </span>
-          }
-          key="email"
-        >
-          <Card>
-            <Form form={emailForm} onFinish={handleSaveEmail} layout="vertical">
-              <Form.Item
-                name="smtp_host"
-                label="SMTP服务器"
-                rules={[{ required: true, message: '请输入SMTP服务器地址' }]}
-              >
-                <Input placeholder="例如：smtp.gmail.com" />
-              </Form.Item>
+            <Form.Item
+              name="smtp_port"
+              label="SMTP端口"
+              rules={[{ required: true, message: '请输入SMTP端口' }]}
+              initialValue={587}
+            >
+              <Input type="number" placeholder="例如：587" />
+            </Form.Item>
 
-              <Form.Item
-                name="smtp_port"
-                label="SMTP端口"
-                rules={[{ required: true, message: '请输入SMTP端口' }]}
-                initialValue={587}
-              >
-                <Input type="number" placeholder="例如：587" />
-              </Form.Item>
+            <Form.Item
+              name="smtp_user"
+              label="邮箱账号"
+              rules={[{ required: true, message: '请输入邮箱账号' }]}
+            >
+              <Input placeholder="例如：your-email@gmail.com" />
+            </Form.Item>
 
-              <Form.Item
-                name="smtp_user"
-                label="邮箱账号"
-                rules={[{ required: true, message: '请输入邮箱账号' }]}
-              >
-                <Input placeholder="例如：your-email@gmail.com" />
-              </Form.Item>
+            <Form.Item
+              name="smtp_password"
+              label="邮箱密码/授权码"
+              rules={[{ required: true, message: '请输入邮箱密码或授权码' }]}
+            >
+              <Input.Password placeholder="请输入密码或授权码" />
+            </Form.Item>
 
-              <Form.Item
-                name="smtp_password"
-                label="邮箱密码/授权码"
-                rules={[{ required: true, message: '请输入邮箱密码或授权码' }]}
-              >
-                <Input.Password placeholder="请输入密码或授权码" />
-              </Form.Item>
+            <Form.Item
+              name="smtp_tls"
+              label="启用TLS"
+              valuePropName="checked"
+              initialValue={true}
+            >
+              <Switch />
+            </Form.Item>
 
-              <Form.Item
-                name="smtp_tls"
-                label="启用TLS"
-                valuePropName="checked"
-                initialValue={true}
-              >
-                <Switch />
-              </Form.Item>
-
-              <Form.Item>
-                <Space>
-                  <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={loading}>
-                    保存配置
-                  </Button>
-                  <Button icon={<ExperimentOutlined />} onClick={handleTestEmail} disabled={!emailConfigured}>
-                    发送测试邮件
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
-          </Card>
-        </TabPane>
-
-        <TabPane
-          tab={
-            <span>
-              <SettingOutlined />
-              通用配置
-            </span>
-          }
-          key="general"
-        >
-          <Card>
-            <Form form={generalForm} onFinish={handleSaveGeneral} layout="vertical">
-              <Form.Item
-                name="app_name"
-                label="应用名称"
-              >
-                <Input placeholder="AI模型测试平台" />
-              </Form.Item>
-
-              <Form.Item
-                name="default_llm_timeout"
-                label="默认LLM超时时间（秒）"
-              >
-                <Input type="number" placeholder="30" />
-              </Form.Item>
-
-              <Form.Item>
+            <Form.Item>
+              <Space>
                 <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={loading}>
                   保存配置
                 </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </TabPane>
-      </Tabs>
+                <Button icon={<ExperimentOutlined />} onClick={handleTestEmail} disabled={!emailConfigured}>
+                  发送测试邮件
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Card>
+      ),
+    },
+    {
+      key: 'general',
+      label: (
+        <span>
+          <SettingOutlined />
+          通用配置
+        </span>
+      ),
+      children: (
+        <Card>
+          <Form form={generalForm} onFinish={handleSaveGeneral} layout="vertical">
+            <Form.Item
+              name="app_name"
+              label="应用名称"
+            >
+              <Input placeholder="AI模型测试平台" />
+            </Form.Item>
+
+            <Form.Item
+              name="default_llm_timeout"
+              label="默认LLM超时时间（秒）"
+            >
+              <Input type="number" placeholder="30" />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={loading}>
+                保存配置
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <h2>系统配置</h2>
+      <Tabs defaultActiveKey="email" items={tabItems} />
     </div>
   );
 };

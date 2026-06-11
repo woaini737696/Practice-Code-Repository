@@ -3,7 +3,6 @@ import { Table, Button, Space, Modal, Form, Input, InputNumber, message, Card, T
 import { PlusOutlined, DeleteOutlined, EditOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { scoringApi } from '../../services/api';
 
-const { TabPane } = Tabs;
 const { TextArea } = Input;
 
 interface ScoreDimension {
@@ -182,12 +181,12 @@ const ScoringList: React.FC = () => {
     },
   ];
 
-  return (
-    <div>
-      <h2>评分管理</h2>
-
-      <Tabs defaultActiveKey="dimensions">
-        <TabPane tab="评分维度" key="dimensions">
+  const tabItems = [
+    {
+      key: 'dimensions',
+      label: '评分维度',
+      children: (
+        <>
           <div style={{ marginBottom: 16 }}>
             <Button
               type="primary"
@@ -208,19 +207,30 @@ const ScoringList: React.FC = () => {
             rowKey="id"
             loading={loading}
           />
-        </TabPane>
+        </>
+      ),
+    },
+    {
+      key: 'annotations',
+      label: '数据标注',
+      children: (
+        <Card title="人工标注记录">
+          <Table
+            columns={annotationColumns}
+            dataSource={annotations}
+            rowKey="id"
+            loading={loading}
+          />
+        </Card>
+      ),
+    },
+  ];
 
-        <TabPane tab="数据标注" key="annotations">
-          <Card title="人工标注记录">
-            <Table
-              columns={annotationColumns}
-              dataSource={annotations}
-              rowKey="id"
-              loading={loading}
-            />
-          </Card>
-        </TabPane>
-      </Tabs>
+  return (
+    <div>
+      <h2>评分管理</h2>
+
+      <Tabs defaultActiveKey="dimensions" items={tabItems} />
 
       <Modal
         title={editingDimension ? '编辑评分维度' : '添加评分维度'}
