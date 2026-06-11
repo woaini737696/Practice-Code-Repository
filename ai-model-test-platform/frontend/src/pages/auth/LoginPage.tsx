@@ -4,7 +4,7 @@ import { Form, Input, Button, Card, message, Tabs } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+const API_BASE_URL = process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000`;
 
 interface LoginPageProps {
   onLogin: () => void;
