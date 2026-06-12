@@ -17,7 +17,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const API_BASE = "";
+const API_BASE = "/ai-data/api";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("chat");

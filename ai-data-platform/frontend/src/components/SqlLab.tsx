@@ -37,7 +37,7 @@ export default function SqlLab() {
     setResult(null);
 
     try {
-      const response = await fetch("/api/query", {
+      const response = await fetch("/ai-data/api/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sql: sql.trim() }),
